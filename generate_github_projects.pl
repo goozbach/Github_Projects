@@ -26,8 +26,17 @@ my $ua = LWP::UserAgent->new();
 $ua->credentials($github_api_url, $github_username, $github_password);
 
 sub make_request($) {
-  my $name = shift;
-  print "hello $name\n";
+  my $part = shift;
+  my $url = $github_api_url . $part;
+  my $response = $ua->get($url);
+  print Dumper $response if $debug;
+  if ( $response->is_success() ) {
+    print "success!\n";
+  } else {
+    print "failed so hard!\n";
+  }
 }
 
+make_request('');
 make_request('foob');
+
