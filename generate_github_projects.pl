@@ -16,15 +16,18 @@ my $Config = Config::Tiny->new();
 $Config = Config::Tiny->read( 'mainconfig.ini' );
 
 # Reading properties
-## debug
-my $root_config = $Config->{_};
-my $github_config = $Config->{github};
 ## for reals
 my $github_api_url = $Config->{'github'}->{'api_url'};
+my $github_username = $Config->{'github'}->{'username'};
+my $github_password = $Config->{'github'}->{'password'};
 
+# setup user agent
 my $ua = LWP::UserAgent->new();
-#$ua->credentials($out_uri->host() . ":" . $out_uri->port(), 'CORAID Control Node', $user, $pass);
+$ua->credentials($github_api_url, $github_username, $github_password);
 
-# debug and main loop
-print Dumper $root_config if $debug;
-print Dumper $github_api_url if $debug;
+sub make_request($) {
+  my $name = shift;
+  print "hello $name\n";
+}
+
+make_request('foob');
