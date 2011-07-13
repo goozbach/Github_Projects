@@ -59,5 +59,5 @@ my @sorted_repos = sort { $b->{'pushed_at'} cmp $a->{'pushed_at'} } @clean_repos
 
 # second loop
 foreach my $repo_hash ( @sorted_repos ) {
-  print "$$repo_hash{'name'} pushed at \t\t\t$$repo_hash{'pushed_at'}\n";
+  print "$$repo_hash{'name'} pushed at \t\t$$repo_hash{'pushed_at'}\n";
 }
