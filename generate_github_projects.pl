@@ -48,16 +48,16 @@ my $repos = JSON::Any->decode($content);
 my @clean_repos;
 
 foreach my $repo_hash ( @$repos ) {
-  #if ( $$repo_hash{'fork'} ) {
-  #  print "$$repo_hash{'name'} is a fork\n" if $debug;
-  #} else {
+  if ( $$repo_hash{'fork'} ) {
+    print "$$repo_hash{'name'} is a fork\n" if $debug;
+  } else {
     push @clean_repos, $repo_hash;
-  #}
+  }
 }
 
 my @sorted_repos = sort { $b->{'created_at'} cmp $a->{'created_at'} } @clean_repos; 
 
 # second loop
 foreach my $repo_hash ( @sorted_repos ) {
-  print "$$repo_hash{'name'} pushed at \t\t$$repo_hash{'created_at'}\n";
+  print "$$repo_hash{'name'} created at \t\t$$repo_hash{'created_at'}\n";
 }
