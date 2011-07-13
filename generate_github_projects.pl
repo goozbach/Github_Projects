@@ -6,9 +6,10 @@ use warnings;
 use Config::Tiny;
 use Data::Dumper;
 use LWP;
+use Carp;
 
 # debug flag
-my $debug = 1;
+my $debug = 0;
 # Create a config
 my $Config = Config::Tiny->new();
 
@@ -31,12 +32,13 @@ sub make_request($) {
   my $response = $ua->get($url);
   print Dumper $response if $debug;
   if ( $response->is_success() ) {
-    print "success!\n";
+    carp "success!\n" if $debug;
+    return $response->content();
   } else {
-    print "failed so hard!\n";
+    carp "failed so hard!\n" if $debug;
+    return undef;
   }
 }
 
-make_request('');
-make_request('foob');
+my $content = make_request('users/goozbach/repos');
 
