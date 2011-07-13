@@ -45,15 +45,19 @@ my $content = make_request('users/goozbach/repos');
 
 my $repos = JSON::Any->decode($content);
 
-#print Dumper @repos;
-
-my @clean_repo;
+my @clean_repos;
 
 foreach my $repo_hash ( @$repos ) {
   if ( $$repo_hash{'fork'} ) {
-    print "$$repo_hash{'name'} is a fork\n";
+    print "$$repo_hash{'name'} is a fork\n" if $debug;
   } else {
-    print "$$repo_hash{'name'} is at $$repo_hash{'html_url'}\n";
+    push @clean_repos, $repo_hash;
   }
-  #print Dumper $repo_hash;
+}
+
+my @sorted_repos = sort { $b->{'pushed_at'} cmp $a->{'pushed_at'} } @clean_repos; 
+
+# second loop
+foreach my $repo_hash ( @sorted_repos ) {
+  print "$$repo_hash{'name'} pushed at \t\t\t$$repo_hash{'pushed_at'}\n";
 }
