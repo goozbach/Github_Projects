@@ -7,6 +7,7 @@ use Config::Tiny;
 use Data::Dumper;
 use LWP;
 use Carp;
+use JSON::Any;
 
 # debug flag
 my $debug = 0;
@@ -42,3 +43,17 @@ sub make_request($) {
 
 my $content = make_request('users/goozbach/repos');
 
+my $repos = JSON::Any->decode($content);
+
+#print Dumper @repos;
+
+my @clean_repo;
+
+foreach my $repo_hash ( @$repos ) {
+  if ( $$repo_hash{'fork'} ) {
+    print "$$repo_hash{'name'} is a fork\n";
+  } else {
+    print "$$repo_hash{'name'} is at $$repo_hash{'html_url'}\n";
+  }
+  #print Dumper $repo_hash;
+}
